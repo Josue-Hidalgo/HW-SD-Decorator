@@ -1,7 +1,7 @@
 # Ejecución
 - Tener .NET v9.0.313
 - Tener Visual Studio (El morado)
-- Al momento de salvar se aplican los decoradores
+- Al momento de salvar (formato y signature) y cargar (revisa signature) se aplican los decoradores
 
 # Autores
 
