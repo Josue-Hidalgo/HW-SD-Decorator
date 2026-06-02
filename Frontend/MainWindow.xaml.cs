@@ -39,12 +39,17 @@ namespace Frontend
 
             CodeEditor.EnsureCoreWebView2Async();
 
-            string path = System.IO.Path.GetFullPath(
-                System.IO.Path.Combine(
-                    Directory.GetCurrentDirectory(),
-                    @"..\..\..\Monaco\main.html"
-                )
-            );
+            // Busca Monaco relativo al ejecutable; si no existe ahí,
+            // cae al path de desarrollo (relativo al working directory de VS).
+            string exeDir = AppDomain.CurrentDomain.BaseDirectory;
+            string monacoRelativeToExe = System.IO.Path.GetFullPath(
+                System.IO.Path.Combine(exeDir, @"Monaco\main.html"));
+            string monacoRelativeToDev = System.IO.Path.GetFullPath(
+                System.IO.Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Monaco\main.html"));
+
+            string path = File.Exists(monacoRelativeToExe)
+                ? monacoRelativeToExe
+                : monacoRelativeToDev;
 
             CodeEditor.Source = new Uri(path);
             TerminalGrid.Height = 0;
