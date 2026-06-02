@@ -3,6 +3,9 @@ cmd
 bin/
 obj/
 
+# Executable output (tracked intentionally)
+!EXECUTABLE/
+
 # Visual Studio files
 .vs/
 *.user

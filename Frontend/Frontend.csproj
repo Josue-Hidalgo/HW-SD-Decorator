@@ -153,12 +153,52 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Monaco\**\*">
-      <Link>Monaco\%(RecursiveDir)%(Filename)%(Extension)</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+  <ItemGroup />
+  <Target Name="CopyToExecutable" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <PropertyGroup>
+      <ExeOut>$(ProjectDir)..\EXECUTABLE</ExeOut>
+    </PropertyGroup>
+
+    <!-- Limpiar y crear carpeta destino -->
+    <RemoveDir Directories="$(ExeOut)" />
+    <MakeDir Directories="$(ExeOut)" />
+    <MakeDir Directories="$(ExeOut)\runtimes\win-x64\native" />
+    <MakeDir Directories="$(ExeOut)\runtimes\win-x86\native" />
+    <MakeDir Directories="$(ExeOut)\runtimes\win-arm64\native" />
+
+    <!-- Ejecutable y config -->
+    <Copy SourceFiles="$(OutputPath)Frontend.exe"        DestinationFolder="$(ExeOut)" />
+    <Copy SourceFiles="$(OutputPath)Frontend.exe.config" DestinationFolder="$(ExeOut)" />
+
+    <!-- DLLs necesarias en tiempo de ejecución -->
+    <Copy SourceFiles="$(OutputPath)Microsoft.Web.WebView2.Core.dll"    DestinationFolder="$(ExeOut)" />
+    <Copy SourceFiles="$(OutputPath)Microsoft.Web.WebView2.Wpf.dll"     DestinationFolder="$(ExeOut)" />
+    <Copy SourceFiles="$(OutputPath)Microsoft.WindowsAPICodePack.dll"   DestinationFolder="$(ExeOut)" />
+    <Copy SourceFiles="$(OutputPath)Microsoft.WindowsAPICodePack.Shell.dll" DestinationFolder="$(ExeOut)" />
+    <Copy SourceFiles="$(OutputPath)LibGit2Sharp.dll"                   DestinationFolder="$(ExeOut)" />
+    <Copy SourceFiles="$(OutputPath)LibGit2Sharp.dll.config"            DestinationFolder="$(ExeOut)" />
+    <Copy SourceFiles="$(OutputPath)Newtonsoft.Json.dll"                DestinationFolder="$(ExeOut)" />
+
+    <!-- WebView2 loader nativo (Windows) -->
+    <Copy SourceFiles="$(OutputPath)runtimes\win-x64\native\WebView2Loader.dll"   DestinationFolder="$(ExeOut)\runtimes\win-x64\native" />
+    <Copy SourceFiles="$(OutputPath)runtimes\win-x86\native\WebView2Loader.dll"   DestinationFolder="$(ExeOut)\runtimes\win-x86\native" />
+    <Copy SourceFiles="$(OutputPath)runtimes\win-arm64\native\WebView2Loader.dll" DestinationFolder="$(ExeOut)\runtimes\win-arm64\native" />
+
+    <!-- LibGit2 nativo solo Windows -->
+    <MakeDir Directories="$(ExeOut)\lib\win32\x64" />
+    <MakeDir Directories="$(ExeOut)\lib\win32\x86" />
+    <MakeDir Directories="$(ExeOut)\lib\win32\arm64" />
+    <Copy SourceFiles="$(OutputPath)lib\win32\x64\git2-3f4182d.dll"   DestinationFolder="$(ExeOut)\lib\win32\x64" />
+    <Copy SourceFiles="$(OutputPath)lib\win32\x86\git2-3f4182d.dll"   DestinationFolder="$(ExeOut)\lib\win32\x86" />
+    <Copy SourceFiles="$(OutputPath)lib\win32\arm64\git2-3f4182d.dll" DestinationFolder="$(ExeOut)\lib\win32\arm64" />
+
+    <!-- Monaco (editor) -->
+    <ItemGroup>
+      <MonacoFiles Include="$(ProjectDir)..\Monaco\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(MonacoFiles)" DestinationFiles="@(MonacoFiles->'$(ExeOut)\Monaco\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Web.WebView2.1.0.3967.48\build\Microsoft.Web.WebView2.targets" Condition="Exists('packages\Microsoft.Web.WebView2.1.0.3967.48\build\Microsoft.Web.WebView2.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
