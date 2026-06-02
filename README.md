@@ -1,7 +1,12 @@
 # Ejecución
-- Tener .NET v9.0.313
-- Tener Visual Studio (El morado)
-- Al momento de salvar (formato y signature) y cargar (revisa signature) se aplican los decoradores
+- Descargar el ZIP del proyecto
+- Abrir un powershell, abrir la ruta
+- cd "C:\Users\<USUARIO>\Downloads\HW-SD-Decorator-main\HW-SD-Decorator-main\EXECUTABLE"
+- & "./Frontend.exe"
+
+- SINO
+- Entrar desde el File Explorer a EXECUTABLE
+- Dar doble clic a el ejecutable Frontend
 
 # Autores
 
