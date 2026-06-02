@@ -1,12 +1,12 @@
 # Ejecución
 - Descargar el ZIP del proyecto
-```cmd
-Abrir un powershell, abrir la ruta
-```
+- Abrir un powershell, abrir la ruta
 ```cmd
 cd "C:\Users\<USUARIO>\Downloads\HW-SD-Decorator-main\HW-SD-Decorator-main\EXECUTABLE"
 ```
-- & "./Frontend.exe"
+```cmd
+& "./Frontend.exe"
+```
 
 - SINO
 - Entrar desde el File Explorer a EXECUTABLE
