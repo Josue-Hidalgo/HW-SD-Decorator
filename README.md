@@ -1,5 +1,6 @@
 # Ejecución
-- Descargar el ZIP del proyecto
+- Descargar el ZIP del proyecto (en descargas)
+- Descomprimir en File Explorer
 - Abrir un powershell, abrir la ruta
 ```cmd
 cd "C:\Users\<USUARIO>\Downloads\HW-SD-Decorator-main\HW-SD-Decorator-main\EXECUTABLE"
